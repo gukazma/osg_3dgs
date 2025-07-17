@@ -143,7 +143,7 @@ void GaussianDrawObj::runSortAndUpdate(const osg::Matrix& viewProj,osg::Image* p
 	getCamera()->getViewMatrixAsLookAt(cam_pos, center, up);
 
 	// 65535 是一个常见的桶数量，它可以覆盖大多数的距离范围，
-	const size_t n_buckets = 65535;
+	const size_t n_buckets = 65535*5;
 	std::vector<size_t> count(n_buckets + 1, 0); 
   
 	std::vector<int> output(nNum, 0);
@@ -154,7 +154,7 @@ void GaussianDrawObj::runSortAndUpdate(const osg::Matrix& viewProj,osg::Image* p
  	for (int i = 0; i< gaussianPoints.size(); i++)
 	{
 		const auto& g = gaussianPoints[i];
-		auto v = -cam_pos - g.position;
+		auto v =  g.position - cam_pos;
 		float d = v.x() * v.x() + v.y() * v.y() + v.z() * v.z();  // dot product
 		float d_normalized = n_buckets * d / max_dist;  // between 0 and n_buckets
 		size_t d_int = std::min(d_normalized, (float)n_buckets - 1);
@@ -172,7 +172,7 @@ void GaussianDrawObj::runSortAndUpdate(const osg::Matrix& viewProj,osg::Image* p
 		--count[j];
 		output[count[j]] = i;
 	}
-    std::reverse(output.begin(), output.end()); // 新增
+    //std::reverse(output.begin(), output.end()); // 新增
     std::swap(output, depthIndex);
 	updateIndexImage(paramsImage);
 }
