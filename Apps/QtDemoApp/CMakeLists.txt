@@ -1,5 +1,5 @@
 set(TARGET_NAME QTDemoApp)
-find_package(Qt6 REQUIRED Core Gui Widgets)  
+find_package(Qt6 REQUIRED Core Gui Widgets OpenGLWidgets)  
 qt_standard_project_setup()
 
 
@@ -17,7 +17,8 @@ source_group(TREE ${CMAKE_CURRENT_LIST_DIR} FILES ${CPP_HEAD_FILES} ${CPP_SOUCE_
 #     file(RELATIVE_PATH SHADER_FILE_REL ${CMAKE_CURRENT_SOURCE_DIR} ${SHADER_FILE_ABS})
 #     list(APPEND SHADER_FILES_REL ${SHADER_FILE_REL})
 # endforeach()
-
+FIND_PACKAGE (OpenSceneGraph REQUIRED COMPONENTS osgUtil osgDB osgText osgGA osgFX osgSim osgViewer osgManipulator)
+find_package(glm CONFIG REQUIRED)
 qt_add_executable(${TARGET_NAME}  ${CPP_HEAD_FILES} ${CPP_SOUCE_FILES} ${UI_SOUCE_FILES}  ${QRC_FILE} ${APPRC_FILE} ${Translatefile})
 set_target_properties(${TARGET_NAME} PROPERTIES FOLDER Apps)
 
@@ -26,8 +27,15 @@ target_link_libraries(${TARGET_NAME}
 PUBLIC
 Qt6::Widgets
 Qt6::Gui
+Qt6::OpenGLWidgets
+${OPENSCENEGRAPH_LIBRARIES}
+glm::glm
 )
-
+target_include_directories(${TARGET_NAME}
+PUBLIC
+$<BUILD_INTERFACE:${OPENSCENEGRAPH_INCLUDE_DIRS}>
+${CMAKE_CURRENT_LIST_DIR}/
+)
 # qt_add_resources(${TARGET_NAME} "images"
 #     PREFIX "/images"
 #     FILES ./QResources/mgukazma.jpg

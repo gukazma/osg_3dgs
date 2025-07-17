@@ -2,21 +2,24 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+class GraphicsWindowQt;
+class MI_TreeItem;
+class QTreeWidgetItem;
+class QTreeWidget;
 
-namespace Ui {
-class MainWindow;
-}
-
+//qt main wnd
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+public:
+	void createToolBar();
 private:
-    Ui::MainWindow *ui;
+	GraphicsWindowQt* pOSGWnd= nullptr;
+public Q_SLOTS:
+    void fileNew();
+    void fileOpen();
 };
-
 #endif // MAINWINDOW_H

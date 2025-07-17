@@ -1,4 +1,4 @@
-if(ENABLE_QTAPP)
+# if(ENABLE_QTAPP)
 add_subdirectory(QtDemoApp)
-endif()
-add_subdirectory(DemoApp)
+# endif()
+# add_subdirectory(DemoApp)
